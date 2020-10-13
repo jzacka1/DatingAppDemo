@@ -3,4 +3,7 @@
   <div class="container">
     <router-outlet></router-outlet>
   </div>
+  <ul>
+    <li *ngFor="let user of users">{{user.userId}} - {{user.userName}}</li>
+  </ul>
 </body>
