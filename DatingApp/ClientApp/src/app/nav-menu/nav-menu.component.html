@@ -1,9 +1,9 @@
 <header>
   <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">DatingApp</a>
+      <a *ngIf="accountService.currentUser$ | async" class="navbar-brand text-light" [routerLink]="['/']">DatingApp</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -15,29 +15,48 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
-        [ngClass]="{ show: isExpanded }"
-      >
-        <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+           [ngClass]="{ show: isExpanded }">
+
+        <div *ngIf="accountService.currentUser$ | async" class="dropdown" dropdown>
+          <a class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
+          <div class="dropdown-menu" *dropdownMenu>
+            <a class="dropdown-item">Edit Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </div>
+
+        <form *ngIf="(accountService.currentUser$ | async) === null" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()">
+          <input
+            name="username"
+            [(ngModel)]="model.username"
+            class="form-control mr-sm-2"
+            type="text"
+            placeholder="Username">
+          <input
+            name="password"
+            [(ngModel)]="model.password"
+            class="form-control mr-sm-2"
+            type="password"
+            placeholder="Password">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+        </form>
+
+        <ul *ngIf="accountService.currentUser$ | async" class="navbar-nav flex-grow">
+          <li class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link text-light" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
-            >
+            <a class="nav-link text-light" [routerLink]="['/counter']">Counter</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
-            >
+            <a class="nav-link text-light" [routerLink]="['/fetch-data']">Fetch data</a>
           </li>
         </ul>
+
       </div>
     </div>
   </nav>
