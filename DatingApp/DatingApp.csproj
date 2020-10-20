@@ -47,6 +47,8 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\members\" />
+    <Folder Include="ClientApp\src\app\_guards\" />
+    <Folder Include="ClientApp\src\app\_modules\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
